@@ -24,4 +24,8 @@ class RecipeBrowserItem implements ItemInterface {
 	public function isSelectable(): bool {
 		return true;
 	}
+
+	public function getRecipe(){
+		return $this->recipe;
+	}
 }
