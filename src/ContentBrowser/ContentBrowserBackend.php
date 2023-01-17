@@ -5,6 +5,7 @@ namespace App\ContentBrowser;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use Netgen\ContentBrowser\Backend\BackendInterface;
+use Netgen\ContentBrowser\Backend\SearchQuery;
 use Netgen\ContentBrowser\Item\ItemInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
@@ -58,22 +59,31 @@ class ContentBrowserBackend implements BackendInterface {
 	}
 
 	public function search(string $searchText, int $offset = 0, int $limit = 25): iterable {
-		$recipes = $this->recipeRepository
-			->createQueryBuilderOrderedByNewest($searchText)
-			->setFirstResult($offset)
-			->setMaxResults($limit)
-			->getQuery()
-			->getResult();
-
-		return array_map(fn(Recipe $recipe) => new RecipeBrowserItem($recipe), $recipes);
+		// deprecated
+		return [];
 	}
 
 	public function searchCount(string $searchText): int {
+		// deprecated
+		return 0;
+	}
+
+	public function searchItems(SearchQuery $searchQuery) {
+		$recipes = $this->recipeRepository
+			->createQueryBuilderOrderedByNewest($searchQuery->getSearchText())
+			->setFirstResult($searchQuery->getOffset())
+			->setMaxResults($searchQuery->getLimit())
+			->getQuery()
+			->getResult();
+
+		return new RecipeBrowserSearchResults($recipes);
+	}
+
+	public function searchItemsCount(SearchQuery $searchQuery) {
 		return $this->recipeRepository
-			->createQueryBuilderOrderedByNewest($searchText)
+			->createQueryBuilderOrderedByNewest($searchQuery->getSearchText())
 			->select('COUNT(recipe.id)')
 			->getQuery()
 			->getSingleScalarResult();
 	}
-
 }
