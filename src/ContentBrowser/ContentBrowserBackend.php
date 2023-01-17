@@ -2,6 +2,8 @@
 
 namespace App\ContentBrowser;
 
+use App\Entity\Recipe;
+use App\Repository\RecipeRepository;
 use Netgen\ContentBrowser\Backend\BackendInterface;
 use Netgen\ContentBrowser\Item\ItemInterface;
 use Netgen\ContentBrowser\Item\LocationInterface;
@@ -9,6 +11,9 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag('netgen_content_browser.backend', ['item_type' => 'doctrine_recipe'])]
 class ContentBrowserBackend implements BackendInterface {
+	public function __construct(private RecipeRepository $recipeRepository) {
+	}
+
 	public function getSections(): iterable {
 		return [new BrowserRootLocation()];
 	}
@@ -34,7 +39,14 @@ class ContentBrowserBackend implements BackendInterface {
 	}
 
 	public function getSubItems(LocationInterface $location, int $offset = 0, int $limit = 25): iterable {
-		return [];
+		$recipes = $this->recipeRepository
+			->createQueryBuilderOrderedByNewest()
+			->setFirstResult($offset)
+			->setMaxResults($limit)
+			->getQuery()
+			->getResult();
+
+		return array_map(fn(Recipe $recipe) => new RecipeBrowserItem($recipe), $recipes);
 	}
 
 	public function getSubItemsCount(LocationInterface $location): int {
