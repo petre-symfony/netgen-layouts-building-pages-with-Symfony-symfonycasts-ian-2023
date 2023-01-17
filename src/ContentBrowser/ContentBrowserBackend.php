@@ -28,7 +28,7 @@ class ContentBrowserBackend implements BackendInterface {
 	}
 
 	public function loadItem($value): ItemInterface {
-
+		return new RecipeBrowserItem($this->recipeRepository->find($value));
 	}
 
 	public function getSubLocations(LocationInterface $location): iterable {
