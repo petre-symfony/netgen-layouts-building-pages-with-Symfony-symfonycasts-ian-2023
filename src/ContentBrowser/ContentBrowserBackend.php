@@ -10,39 +10,43 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 #[AutoconfigureTag('netgen_content_browser.backend', ['item_type' => 'doctrine_recipe'])]
 class ContentBrowserBackend implements BackendInterface {
 	public function getSections(): iterable {
-		// TODO: Implement getSections() method.
+		return [new BrowserRootLocation()];
 	}
 
 	public function loadLocation($id): LocationInterface {
-		// TODO: Implement loadLocation() method.
+		if ($id === '0'){
+			return new BrowserRootLocation();
+		}
+
+		throw new \InvalidArgumentException(sprintf('Invalid location "%s"', $id));
 	}
 
 	public function loadItem($value): ItemInterface {
-		// TODO: Implement loadItem() method.
+
 	}
 
 	public function getSubLocations(LocationInterface $location): iterable {
-		// TODO: Implement getSubLocations() method.
+		return [];
 	}
 
 	public function getSubLocationsCount(LocationInterface $location): int {
-		// TODO: Implement getSubLocationsCount() method.
+		return 0;
 	}
 
 	public function getSubItems(LocationInterface $location, int $offset = 0, int $limit = 25): iterable {
-		// TODO: Implement getSubItems() method.
+		return [];
 	}
 
 	public function getSubItemsCount(LocationInterface $location): int {
-		// TODO: Implement getSubItemsCount() method.
+		return 0;
 	}
 
 	public function search(string $searchText, int $offset = 0, int $limit = 25): iterable {
-		// TODO: Implement search() method.
+		return [];
 	}
 
 	public function searchCount(string $searchText): int {
-		// TODO: Implement searchCount() method.
+		return 0;
 	}
 
 }
