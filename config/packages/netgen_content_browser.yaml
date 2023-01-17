@@ -1,0 +1,6 @@
+netgen_content_browser:
+  item_types:
+    doctrine_recipe:
+      name: 'Recipes 🍓'
+      preview:
+        template: 'nglayouts/content_browser/recipe_preview.html.twig'
