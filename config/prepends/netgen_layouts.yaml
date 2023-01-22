@@ -15,7 +15,7 @@ netgen_layouts:
       view_types:
         one_by_two:
           name: 1x2 Featured Grid
-          
+
   view:
     item-view:
       # app = admin
@@ -48,3 +48,10 @@ netgen_layouts:
           template: 'nglayouts/frontend/recipe_item.html.twig'
           match:
             item\value_type: 'doctrine_recipe'
+    block_view:
+      app:
+        list/one_by_two:
+          template: '@NetgenLayoutsStandard/app/block/list/grid.html.twig'
+          match:
+            block\definition: list
+            block\view_type: one_by_two
