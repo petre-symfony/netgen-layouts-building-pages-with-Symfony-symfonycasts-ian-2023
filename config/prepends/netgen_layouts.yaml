@@ -55,3 +55,9 @@ netgen_layouts:
           match:
             block\definition: list
             block\view_type: one_by_two
+      default:
+        list/one_by_two:
+          template: '@nglayouts/block/list/one_by_two.html.twig'
+          match:
+            block\definition: list
+            block\view_type: one_by_two
