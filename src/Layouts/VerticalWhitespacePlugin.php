@@ -38,7 +38,7 @@ class VerticalWhitespacePlugin extends Plugin {
 				'groups' => [self::GROUP_DESIGN],
 			],
 		);
-		
+
 		$builder->get('vertical_whitespace:enabled')->add(
 			'vertical_whitespace:bottom',
 			ParameterType\ChoiceType::class,
